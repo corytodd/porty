@@ -1,0 +1,9 @@
+﻿<Window x:Class="Porty.MainWindow" Icon="Resources/goat.ico"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Loaded="Window_Loaded" Initialized="Window_Initialized"
+    Title="Porty" Width="1" SizeToContent="Height" ShowInTaskbar="False"
+    WindowStyle="None" AllowsTransparency="True" Background="Transparent">
+    <Grid>
+        <!-- This window is only used so that we may use its reference to listen to the system messages via HwndSource -->
+    </Grid>
+</Window>
