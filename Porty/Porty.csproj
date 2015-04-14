@@ -101,6 +101,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AutoDescriptor.cs" />
     <Compile Include="HardwareEvents.cs" />
     <Compile Include="PortService.cs">
       <SubType>Component</SubType>
