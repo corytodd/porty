@@ -30,7 +30,9 @@ namespace Porty
         {
             base.OnSourceInitialized(e);
             source = PresentationSource.FromVisual(this) as HwndSource;
+            var windowHandle = source.Handle;
             source.AddHook(WndProc);
+            UsbNotification.RegisterUsbDeviceNotification(windowHandle);
         }
 
         /// <summary>
@@ -44,22 +46,21 @@ namespace Porty
         /// <returns></returns>
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            // A hardware change occured
-            if (msg == HardwareEvents.WM_DEVICECHANGE)
+            if (msg == UsbNotification.WmDevicechange)
             {
-                // This was an insertion
-                if (wParam.ToInt32() == HardwareEvents.DBT_DEVICEARRIVAL)
+                switch ((int)wParam)
                 {
-                    // of a serial port device
-                    if (Marshal.ReadInt32(lParam, 4) == HardwareEvents.DBT_DEVTYP_PORT)
-                    {
-                        // Cannot marshall variable data into a struct, just dig out the string manually.
-                        string port = Marshal.PtrToStringAuto((IntPtr)((long)lParam + 12));
-                        generatePopup(port);
-                    }
+                    case UsbNotification.DbtDeviceremovecomplete:
+                        break;
+                    case UsbNotification.DbtDevicearrival:
+                        break;
+
+                    default:
+                        break;
                 }
             }
 
+            handled = false;
             return IntPtr.Zero;
         }
 

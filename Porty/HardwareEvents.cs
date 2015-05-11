@@ -22,6 +22,7 @@ namespace Porty
             public int dbch_size;
             public int dbch_devicetype;
             public int dbch_reserved;
+            public char dbcp_name;
         }
     }
 }
