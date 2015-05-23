@@ -19,6 +19,7 @@ namespace Porty
         private System.Windows.Forms.NotifyIcon notifyIcon = null;
         private Dictionary<string, System.Drawing.Icon> IconHandles = null;
         private HwndSource source;
+        private PortEventModel currentAction = new PortEventModel();
         #endregion
 
         public MainWindow()
@@ -46,13 +47,26 @@ namespace Porty
         /// <returns></returns>
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (msg == UsbNotification.WmDevicechange)
+            if (msg == UsbNotification.WM_DEVICECHANGE)
             {
                 switch ((int)wParam)
                 {
-                    case UsbNotification.DbtDeviceremovecomplete:
+                    case UsbNotification.DBT_DEVICEREMOVALCOMPLETE:
                         break;
-                    case UsbNotification.DbtDevicearrival:
+                    case UsbNotification.DBT_DEVICEARRIVAL:
+                        if (Marshal.ReadInt32(lParam, 4) == UsbNotification.DBT_DEVTYP_PORT)
+                        {
+                            currentAction.PortName = Marshal.PtrToStringAuto((IntPtr)(long)lParam + 12);
+                        }
+                        else
+                        {
+                            currentAction.ExtractPIDVID(Marshal.PtrToStringAuto((IntPtr)(long)lParam + 28));
+                        }
+
+
+                        if (currentAction.isComplete)
+                            generatePopup(currentAction);
+
                         break;
 
                     default:
@@ -64,15 +78,15 @@ namespace Porty
             return IntPtr.Zero;
         }
 
-
         /// <summary>
         /// Generates a PortEventNotice with the given string
         /// </summary>
         /// <param name="message">Message to display in popup</param>
-        private void generatePopup(string message)
+        private void generatePopup(PortEventModel data)
         {
             PortEventNotice pen = new PortEventNotice();
-            pen.Summary = message;
+            pen.PortName = data.PortName;
+            pen.PidVid = String.Format("PID: {0}\nVID: {1}", data.PID, data.VID);
             pen.Show();
         }
 

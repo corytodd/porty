@@ -93,6 +93,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="PortEventModel.cs" />
     <Compile Include="USBNotification.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -103,7 +104,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AutoDescriptor.cs" />
-    <Compile Include="HardwareEvents.cs" />
     <Compile Include="PortService.cs">
       <SubType>Component</SubType>
     </Compile>

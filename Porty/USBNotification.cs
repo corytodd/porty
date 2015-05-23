@@ -5,12 +5,21 @@ namespace Porty
 {
     internal static class UsbNotification
     {
-        public const int DbtDevicearrival = 0x8000; // system detected a new device        
-        public const int DbtDeviceremovecomplete = 0x8004; // device is gone      
-        public const int WmDevicechange = 0x0219; // device change event      
+        // https://msdn.microsoft.com/en-us/library/windows/desktop/aa363480%28v=vs.85%29.aspx
+        public const int DBT_DEVICEARRIVAL = 0x8000;       // system detected a new device
+        public const int DBT_DEVICEREMOVALCOMPLETE = 0x8004;  // device is gone      
+        
+        // https://www.autoitscript.com/autoit3/docs/appendix/WinMsgCodes.htm
+        public const int WM_DEVICECHANGE = 0x0219;
+
+
+        public const int DBT_DEVTYP_PORT = 0x00000003;     // serial, parallel
+
         private const int DbtDevtypDeviceinterface = 5;
         private static readonly Guid GuidDevinterfaceUSBDevice0 = new Guid(0x25dbce51, 0x6c8f, 0x4a72,
-                      0x8a, 0x6d, 0xb5, 0x4c, 0x2b, 0x4f, 0xc8, 0x35);//  // = new Guid("86E0D1E0-8089-11D0-9CE4-08003E301F73");//"A5DCBF10-6530-11D2-901F-00C04FB951ED"); // USB devices
+                      0x8a, 0x6d, 0xb5, 0x4c, 0x2b, 0x4f, 0xc8, 0x35);//  
+        // = new Guid("86E0D1E0-8089-11D0-9CE4-08003E301F73");
+        //"A5DCBF10-6530-11D2-901F-00C04FB951ED"); // USB devices
         private static readonly Guid GuidDevinterfaceUSBDevice1 = new Guid("A5DCBF10-6530-11D2-901F-00C04FB951ED");
         private static IntPtr notificationHandle;
 

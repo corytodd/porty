@@ -21,7 +21,8 @@ namespace Porty
     public partial class PortEventNotice : Window, INotifyPropertyChanged
     {
         #region Fields
-        private string _summary = string.Empty;
+        private string _portName = string.Empty;
+        private string _pidvid = string.Empty;
         #endregion
 
         public PortEventNotice()
@@ -35,13 +36,26 @@ namespace Porty
         /// <summary>
         /// Gets or set the summary message on the popup
         /// </summary>
-        public string Summary
+        public string PortName
         {
-            get { return _summary; }
+            get { return _portName; }
             set
             {
-                _summary = value;
-                OnPropertyChanged("Summary");
+                _portName = value;
+                OnPropertyChanged("PortName");
+            }
+        }
+
+        /// <summary>
+        /// Gets or set the summary message on the popup
+        /// </summary>
+        public string PidVid
+        {
+            get { return _pidvid; }
+            set
+            {
+                _pidvid = value;
+                OnPropertyChanged("PidVid");
             }
         }
 
