@@ -49,29 +49,30 @@ namespace Porty
         {
             if (msg == UsbNotification.WM_DEVICECHANGE)
             {
+                if (Marshal.ReadInt32(lParam, 4) == UsbNotification.DBT_DEVTYP_PORT)
+                {
+                    currentAction.PortName = Marshal.PtrToStringAuto((IntPtr)(long)lParam + 12);
+                }
+                else
+                {
+                    currentAction.ExtractPIDVID(Marshal.PtrToStringAuto((IntPtr)(long)lParam + 28));
+                }
+
                 switch ((int)wParam)
                 {
                     case UsbNotification.DBT_DEVICEREMOVALCOMPLETE:
+                        currentAction.Attached = false;
                         break;
                     case UsbNotification.DBT_DEVICEARRIVAL:
-                        if (Marshal.ReadInt32(lParam, 4) == UsbNotification.DBT_DEVTYP_PORT)
-                        {
-                            currentAction.PortName = Marshal.PtrToStringAuto((IntPtr)(long)lParam + 12);
-                        }
-                        else
-                        {
-                            currentAction.ExtractPIDVID(Marshal.PtrToStringAuto((IntPtr)(long)lParam + 28));
-                        }
-
-
-                        if (currentAction.isComplete)
-                            generatePopup(currentAction);
-
-                        break;
-
-                    default:
+                        currentAction.Attached = true;
                         break;
                 }
+
+                if (currentAction.isComplete)
+                {
+                    generatePopup(currentAction);
+                }
+
             }
 
             handled = false;
@@ -87,6 +88,12 @@ namespace Porty
             PortEventNotice pen = new PortEventNotice();
             pen.PortName = data.PortName;
             pen.PidVid = String.Format("PID: {0}\nVID: {1}", data.PID, data.VID);
+
+            if (data.Attached)
+                pen.StateString = "VCP Device Connected";
+            else
+                pen.StateString = "VCP Device Disconnected";
+
             pen.Show();
         }
 

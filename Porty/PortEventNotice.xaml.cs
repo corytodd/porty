@@ -23,6 +23,7 @@ namespace Porty
         #region Fields
         private string _portName = string.Empty;
         private string _pidvid = string.Empty;
+        private string _stateStr = string.Empty;
         #endregion
 
         public PortEventNotice()
@@ -43,6 +44,16 @@ namespace Porty
             {
                 _portName = value;
                 OnPropertyChanged("PortName");
+            }
+        }
+
+        public string StateString
+        {
+            get { return _stateStr; }
+            set 
+            {
+                _stateStr = value;
+                OnPropertyChanged("StateString");
             }
         }
 

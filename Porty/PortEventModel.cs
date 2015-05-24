@@ -11,6 +11,7 @@ namespace Porty
         public String PortName { get; set; }
         public String PID { get; set; }
         public String VID { get; set; }
+        public bool Attached { get; set; }
 
         public Boolean isComplete
         {

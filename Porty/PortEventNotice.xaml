@@ -46,7 +46,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontWeight="Bold" FontSize="15"
-                       Text="VCP Device Connected"/>
+                       Text="{Binding StateString}"/>
                 
                 <TextBlock Grid.Column="1" 
                        Grid.Row="1"
